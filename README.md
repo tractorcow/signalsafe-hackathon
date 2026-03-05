@@ -43,6 +43,18 @@ The app uses **Prisma 7** with a **local SQLite** database. The DB file is `pris
 - **API**: `GET /api/users` and `POST /api/users` (body: `{ "email": "...", "name": "..." }`) use the database.
 - **Config**: `DATABASE_URL` in `.env` points to `file:./prisma/dev.db`. Connection is configured in `prisma.config.ts` and the app uses `@prisma/adapter-better-sqlite3` in `lib/db.ts`.
 
+## Monorepo: sharing Prisma and lib with apps
+
+The repo root holds the **single** Prisma schema (`prisma/`), generated client, and shared lib (`lib/`, `app/lib/`). Apps in `apps/` (e.g. `survey`, `admin`) use the same schema and helpers via path mapping.
+
+- **In `apps/survey` and `apps/admin`**: `@/` is mapped to the repo root, so you can import shared code from root:
+  - `import { prisma } from "@/lib/db"`
+  - `import { writeSurveyAnswer } from "@/app/lib/survey-answer"`
+  - `import { getSurvey, getQuestion } from "@/lib/survey"`
+  - `import { SENTIMENT_KEYS, SENTIMENT_LABELS } from "@/lib/sentiments"`
+- **App-local imports** in each app use the `~/*` alias (e.g. `~/app/page`).
+- Run `npm run db:generate` (and migrations) from the **repo root**; all apps share the same DB and client.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
