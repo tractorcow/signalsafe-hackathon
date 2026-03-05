@@ -113,11 +113,18 @@ export default function SurveyChat() {
   };
 
   return (
-    <div className="flex h-screen flex-col bg-[#0d0d0d]">
+    <div className="flex h-screen flex-col bg-[#0a0a0f]">
+      {/* Subtle gradient orbs in background */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-amber-500/10 blur-[100px]" />
+        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-cyan-500/10 blur-[100px]" />
+        <div className="absolute left-1/2 top-1/4 h-64 w-64 -translate-x-1/2 rounded-full bg-violet-500/5 blur-[80px]" />
+      </div>
+
       {/* Header */}
-      <header className="shrink-0 border-b border-white/10 px-4 py-3">
+      <header className="relative shrink-0 border-b border-white/[0.06] bg-black/20 px-4 py-3 backdrop-blur-md">
         <div className="mx-auto flex max-w-3xl items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400/20 to-amber-600/20 text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.15)] ring-1 ring-amber-400/20">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -133,22 +140,24 @@ export default function SurveyChat() {
             </svg>
           </div>
           <div>
-            <h1 className="text-sm font-medium text-white">SignalSafe Survey</h1>
-            <p className="text-xs text-white/50">Conversational survey</p>
+            <h1 className="text-sm font-semibold tracking-tight text-white">
+              SignalSafe Survey
+            </h1>
+            <p className="text-xs text-white/45">Share your feedback in a short conversation</p>
           </div>
         </div>
       </header>
 
       {error && (
-        <div className="mx-auto max-w-3xl px-4 py-2">
-          <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-3 py-2 text-sm text-red-300">
+        <div className="relative mx-auto max-w-3xl px-4 py-2">
+          <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-sm text-rose-300 shadow-[0_0_20px_rgba(244,63,94,0.1)]">
             {error}
           </div>
         </div>
       )}
 
       {/* Messages */}
-      <div className="min-h-0 flex-1 overflow-y-auto">
+      <div className="relative min-h-0 flex-1 overflow-y-auto">
         <div className="mx-auto max-w-3xl px-4 py-6">
           {messages.map((msg) => (
             <div
@@ -160,7 +169,7 @@ export default function SurveyChat() {
               }
             >
               {msg.role === "agent" && (
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-400/25 to-amber-600/25 text-amber-400 ring-1 ring-amber-400/20">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -177,8 +186,8 @@ export default function SurveyChat() {
               <div
                 className={
                   msg.role === "agent"
-                    ? "max-w-[85%] rounded-2xl rounded-tl-md bg-white/5 px-4 py-3 text-[15px] leading-relaxed text-white/90"
-                    : "max-w-[85%] rounded-2xl rounded-tr-md bg-emerald-500/20 px-4 py-3 text-[15px] leading-relaxed text-white"
+                    ? "max-w-[85%] rounded-2xl rounded-tl-md border border-white/[0.06] bg-white/[0.04] px-4 py-3 text-[15px] leading-relaxed text-white/95 shadow-lg shadow-black/10"
+                    : "max-w-[85%] rounded-2xl rounded-tr-md border border-amber-500/20 bg-gradient-to-br from-amber-500/25 via-slate-800/90 to-slate-900/95 px-4 py-3 text-[15px] leading-relaxed text-white shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
                 }
               >
                 {msg.content}
@@ -187,7 +196,7 @@ export default function SurveyChat() {
           ))}
           {isLoading && (
             <div className="mb-6 flex gap-3">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-400/25 to-amber-600/25 text-amber-400 ring-1 ring-amber-400/20">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -200,10 +209,10 @@ export default function SurveyChat() {
                   <circle cx="12" cy="12" r="10" />
                 </svg>
               </div>
-              <div className="flex items-center gap-1 rounded-2xl rounded-tl-md bg-white/5 px-4 py-3">
-                <span className="h-2 w-2 animate-bounce rounded-full bg-white/60 [animation-delay:-0.3s]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-white/60 [animation-delay:-0.15s]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-white/60" />
+              <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-md border border-white/[0.06] bg-white/[0.04] px-4 py-3">
+                <span className="h-2 w-2 animate-bounce rounded-full bg-amber-400/80 [animation-delay:-0.3s]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-amber-400/80 [animation-delay:-0.15s]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-amber-400/80" />
               </div>
             </div>
           )}
@@ -212,10 +221,10 @@ export default function SurveyChat() {
       </div>
 
       {/* Input */}
-      <div className="shrink-0 border-t border-white/10 bg-[#0d0d0d] p-4">
+      <div className="relative shrink-0 border-t border-white/[0.06] bg-black/30 p-4 backdrop-blur-md">
         <form
           onSubmit={handleSubmit}
-          className="mx-auto flex max-w-3xl gap-3 rounded-2xl border border-white/10 bg-white/5 px-2 py-2 focus-within:border-emerald-500/50 focus-within:ring-1 focus-within:ring-emerald-500/30"
+          className="mx-auto flex max-w-3xl gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] px-3 py-2.5 shadow-xl shadow-black/20 transition focus-within:border-amber-500/40 focus-within:ring-2 focus-within:ring-amber-500/20"
         >
           <textarea
             ref={textareaRef}
@@ -229,13 +238,13 @@ export default function SurveyChat() {
             }}
             placeholder="Type your answer..."
             rows={1}
-            className="min-h-[44px] max-h-32 flex-1 resize-none bg-transparent px-3 py-2.5 text-[15px] text-white placeholder:text-white/40 focus:outline-none"
+            className="min-h-[44px] max-h-32 flex-1 resize-none bg-transparent px-2 py-2.5 text-[15px] text-white placeholder:text-white/35 focus:outline-none"
             disabled={isLoading || isComplete}
           />
           <button
             type="submit"
             disabled={!input.trim() || isLoading || isComplete}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-white transition hover:bg-emerald-400 disabled:opacity-40 disabled:hover:bg-emerald-500"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-[0_4px_14px_rgba(245,158,11,0.4)] transition hover:from-amber-300 hover:to-amber-500 hover:shadow-[0_4px_20px_rgba(245,158,11,0.5)] disabled:opacity-40 disabled:shadow-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +256,7 @@ export default function SurveyChat() {
             </svg>
           </button>
         </form>
-        <p className="mx-auto mt-2 max-w-3xl text-center text-xs text-white/40">
+        <p className="mx-auto mt-2 max-w-3xl text-center text-xs text-white/35">
           Press Enter to send, Shift+Enter for new line
         </p>
       </div>

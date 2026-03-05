@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #1a1a2e;
+  --chat-bg: #0f0f14;
+  --chat-surface: #16161d;
+  --chat-border: rgba(255, 255, 255, 0.06);
+  --accent: #f59e0b;
+  --accent-soft: rgba(245, 158, 11, 0.15);
+  --user-bubble: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+  --agent-bubble: rgba(255, 255, 255, 0.04);
 }
 
 @theme inline {
