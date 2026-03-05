@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { getSurvey } from "@/lib/survey";
+import type { Survey } from "@/lib/survey";
 
 type Role = "agent" | "user";
 
@@ -10,15 +12,15 @@ type Message = {
   content: string;
 };
 
-const INITIAL_QUESTION =
-  "We’d like to hear your thoughts on Rush’s diversity and inclusion hiring initiative. From your perspective, how has the initiative felt so far?";
 
 export default function SurveyChat() {
+  const [survey] = useState<Survey>(() => getSurvey());
+  const initialQuestion = survey.questions[0]?.introLine ?? "We'd like to hear your thoughts.";
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       role: "agent",
-      content: INITIAL_QUESTION,
+      content: initialQuestion,
     },
   ]);
   const [input, setInput] = useState("");

@@ -1,4 +1,4 @@
-import SurveyChat from "./components/SurveyChat";
+import SurveyChat from "~/app/components/SurveyChat";
 
 export default function SurveyHome() {
   return <SurveyChat />;
