@@ -3,11 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
+    "dev:admin": "npm run dev --workspace=admin",
+    "dev:survey": "npm run dev --workspace=survey",
+    "build:admin": "npm run build --workspace=admin",
+    "build:survey": "npm run build --workspace=survey",
+    "start:admin": "npm run start --workspace=admin",
+    "start:survey": "npm run start --workspace=survey",
+    "lint:admin": "npm run lint --workspace=admin",
+    "lint:survey": "npm run lint --workspace=survey",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
