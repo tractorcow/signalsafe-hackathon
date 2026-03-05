@@ -1,0 +1,210 @@
+[
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q1-overall-sentiment",
+    "sentiment": {
+      "positive": 0.7,
+      "satisfaction": 0.6,
+      "neutral": 0.2
+    },
+    "feedback": {
+      "positive_factors": "Good team, flexible working, and leadership is approachable.",
+      "negative_factors": "Some meetings could be shorter.",
+      "general_sentiment": "Generally positive; a few process improvements would help."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q2-org-direction",
+    "sentiment": {
+      "positive": 0.8,
+      "trust": 0.7,
+      "anticipation": 0.6
+    },
+    "feedback": {
+      "confidence_reasons": "Clear strategy and recent wins in the market.",
+      "concerns": "Uncertainty around restructuring timelines."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q3-feeling-valued",
+    "sentiment": {
+      "positive": 0.5,
+      "satisfaction": 0.5,
+      "neutral": 0.3
+    },
+    "feedback": {
+      "what_makes_people_feel_valued": "Recognition in team meetings and opportunities to lead projects.",
+      "what_reduces_that_feeling": "Lack of visibility for remote contributions."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q4-di-initiative",
+    "sentiment": {
+      "positive": 0.75,
+      "trust": 0.6,
+      "anticipation": 0.5
+    },
+    "feedback": {
+      "positive_views": "Good intent and it's starting to change the candidate mix.",
+      "concerns": "Worry that referrals could reinforce existing networks if not monitored.",
+      "impact_perception": "Seen as a step in the right direction; too early to judge impact."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q5-di-impact",
+    "sentiment": {
+      "positive": 0.4,
+      "neutral": 0.5,
+      "anticipation": 0.4
+    },
+    "feedback": {
+      "evidence_of_impact": "More diverse shortlists in the last two hiring rounds.",
+      "doubts_or_limitations": "Still limited data; need longer-term tracking."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q6-di-strengths",
+    "sentiment": {
+      "positive": 0.7,
+      "trust": 0.5,
+      "gratitude": 0.4
+    },
+    "feedback": {
+      "strengths": "Training for hiring managers and clear referral guidelines.",
+      "successful_actions": "Including D&I in leadership goals and sharing progress internally."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q7-di-improvements",
+    "sentiment": {
+      "neutral": 0.5,
+      "anticipation": 0.5,
+      "positive": 0.3
+    },
+    "feedback": {
+      "improvement_suggestions": "More transparency on outcomes (e.g. hire rates by referral vs non-referral) and dedicated D&I roles in each region."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q8-culture-inclusiveness",
+    "sentiment": {
+      "positive": 0.6,
+      "trust": 0.5,
+      "neutral": 0.3
+    },
+    "feedback": {
+      "inclusive_behaviours": "Inclusive language in comms and diverse panels for interviews.",
+      "areas_of_exclusion": "Some team socials are not accessible for remote or part-time staff."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q9-voice",
+    "sentiment": {
+      "positive": 0.7,
+      "trust": 0.65,
+      "satisfaction": 0.5
+    },
+    "feedback": {
+      "reasons_for_comfort": "Manager encourages input and we have regular retros.",
+      "barriers_to_speaking_up": "Senior stakeholders sometimes dismiss ideas without discussion."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q10-leadership-di",
+    "sentiment": {
+      "positive": 0.55,
+      "trust": 0.5,
+      "neutral": 0.35
+    },
+    "feedback": {
+      "leadership_strengths": "Visible sponsorship of the initiative and talking about it in all-hands.",
+      "leadership_gaps": "Would like to see more diverse representation in senior leadership itself."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q11-remuneration",
+    "sentiment": {
+      "satisfaction": 0.5,
+      "neutral": 0.4,
+      "positive": 0.4
+    },
+    "feedback": {
+      "positive_compensation_aspects": "Benefits package and annual review process.",
+      "compensation_concerns": "Raises have not kept pace with inflation in the last two years."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q12-market-competitiveness",
+    "sentiment": {
+      "neutral": 0.5,
+      "satisfaction": 0.35,
+      "negative": 0.2
+    },
+    "feedback": {
+      "competitive_factors": "Base salary is in line with market for some roles.",
+      "gaps_vs_market": "Bonus and equity are below what competitors offer for similar levels."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q13-career-growth",
+    "sentiment": {
+      "positive": 0.6,
+      "anticipation": 0.5,
+      "satisfaction": 0.5
+    },
+    "feedback": {
+      "growth_strengths": "Internal mobility is encouraged and there are learning budgets.",
+      "growth_barriers": "Promotion criteria could be clearer; some roles are filled externally without internal consideration."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q14-performance-recognition",
+    "sentiment": {
+      "positive": 0.5,
+      "satisfaction": 0.5,
+      "neutral": 0.35
+    },
+    "feedback": {
+      "recognition_strengths": "Spot awards and shout-outs in team channels.",
+      "recognition_issues": "Recognition feels uneven across departments; some managers rarely nominate people."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q15-recommendation",
+    "sentiment": {
+      "positive": 0.7,
+      "satisfaction": 0.65,
+      "trust": 0.5
+    },
+    "feedback": {
+      "reasons_to_recommend": "Culture, people, and the work itself.",
+      "reasons_not_to_recommend": "Pay and pace of change on career progression."
+    }
+  },
+  {
+    "surveyId": "rush-employee-feedback-2025",
+    "questionId": "q16-main-improvement",
+    "sentiment": {
+      "anticipation": 0.5,
+      "positive": 0.3,
+      "neutral": 0.4
+    },
+    "feedback": {
+      "top_improvement_area": "Tie compensation and progression more clearly to performance and market, and improve transparency on both."
+    }
+  }
+]
