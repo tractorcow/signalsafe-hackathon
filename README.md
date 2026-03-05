@@ -43,6 +43,10 @@ The app uses **Prisma 7** with a **local SQLite** database. The DB file is `pris
 - **API**: `GET /api/users` and `POST /api/users` (body: `{ "email": "...", "name": "..." }`) use the database.
 - **Config**: `DATABASE_URL` in `.env` points to `file:./prisma/dev.db`. Connection is configured in `prisma.config.ts` and the app uses `@prisma/adapter-better-sqlite3` in `lib/db.ts`.
 
+## Survey Chat (OpenRouter)
+
+The survey app uses **OpenRouter** for conversational AI with Claude and zero data retention (ZDR). Set `OPENROUTER_API_KEY` in `.env` (get a key at [openrouter.ai/keys](https://openrouter.ai/keys)). Optionally set `OPENROUTER_MODEL` to override the default (`anthropic/claude-3.5-sonnet`). Run the survey app with `npm run dev:survey` (port 3002).
+
 ## Monorepo: sharing Prisma and lib with apps
 
 The repo root holds the **single** Prisma schema (`prisma/`), generated client, and shared lib (`lib/`, `app/lib/`). Apps in `apps/` (e.g. `survey`, `admin`) use the same schema and helpers via path mapping.

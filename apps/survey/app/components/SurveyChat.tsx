@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { getSurvey } from "@/lib/survey";
-import type { Survey } from "@/lib/survey";
+import type { Survey, SurveyQuestion } from "@/lib/survey";
 
 type Role = "agent" | "user";
 
@@ -12,26 +12,54 @@ type Message = {
   content: string;
 };
 
-
 const COMPLETION_MESSAGE =
   "Thank you for completing the survey. We appreciate your feedback.";
 
+function extractJsonAndText(content: string): { text: string; json?: object } {
+  const jsonBlockMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (jsonBlockMatch) {
+    const jsonStr = jsonBlockMatch[1].trim();
+    const text = content.slice(0, content.indexOf("```")).trim();
+    try {
+      const parsed = JSON.parse(jsonStr) as object;
+      if (parsed && typeof parsed === "object") {
+        return { text, json: parsed };
+      }
+    } catch {
+      // Invalid JSON, treat as text only
+    }
+  }
+  const braceMatch = content.match(/\{[\s\S]*\}/);
+  if (braceMatch) {
+    try {
+      const parsed = JSON.parse(braceMatch[0]) as object;
+      if (parsed && typeof parsed === "object" && "sentiment" in parsed) {
+        const text = content.slice(0, content.indexOf(braceMatch[0])).trim();
+        return { text, json: parsed };
+      }
+    } catch {
+      // Not valid survey JSON
+    }
+  }
+  return { text: content.trim() };
+}
+
 export default function SurveyChat() {
   const [survey] = useState<Survey>(() => getSurvey());
-  const initialQuestion = survey.questions[0]?.introLine ?? "We'd like to hear your thoughts.";
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      role: "agent",
-      content: initialQuestion,
-    },
-  ]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const q = survey.questions[0];
+    const intro = q?.introLine ?? "We'd like to hear your thoughts.";
+    return [{ id: "1", role: "agent", content: intro }];
+  });
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const activeQuestion: SurveyQuestion | undefined =
+    survey.questions[currentQuestionIndex];
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -44,10 +72,10 @@ export default function SurveyChat() {
     ta.style.height = `${Math.min(ta.scrollHeight, 128)}px`;
   }, [input]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = input.trim();
-    if (!text || isLoading) return;
+    if (!text || isLoading || !activeQuestion) return;
 
     const userMessage: Message = {
       id: crypto.randomUUID(),
@@ -59,33 +87,89 @@ export default function SurveyChat() {
     if (textareaRef.current) textareaRef.current.style.height = "44px";
     setIsLoading(true);
 
-    const nextIndex = currentQuestionIndex + 1;
+    const apiMessages = messages
+      .concat(userMessage)
+      .map((m: Message) => ({
+        role: m.role === "agent" ? "assistant" : "user",
+        content: m.content,
+      }));
 
-    setTimeout(() => {
-      if (nextIndex < survey.questions.length) {
-        const nextQuestion = survey.questions[nextIndex];
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: apiMessages,
+          surveyId: survey.surveyId,
+          questionId: activeQuestion.questionId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
         setMessages((prev) => [
           ...prev,
           {
             id: crypto.randomUUID(),
             role: "agent",
-            content: nextQuestion.introLine,
+            content: `Sorry, something went wrong. Please try again. (${data.error ?? "Unknown error"})`,
           },
         ]);
-        setCurrentQuestionIndex(nextIndex);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: crypto.randomUUID(),
-            role: "agent",
-            content: COMPLETION_MESSAGE,
-          },
-        ]);
-        setIsComplete(true);
+        setIsLoading(false);
+        return;
       }
+
+      const { text: displayText, json } = extractJsonAndText(data.content ?? "");
+
+      if (displayText) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: crypto.randomUUID(),
+            role: "agent",
+            content: displayText,
+          },
+        ]);
+      }
+
+      if (json && "sentiment" in json) {
+        // Question complete; could store json here
+        const nextIndex = currentQuestionIndex + 1;
+        if (nextIndex < survey.questions.length) {
+          const nextQuestion = survey.questions[nextIndex];
+          setCurrentQuestionIndex(nextIndex);
+          setMessages([
+            {
+              id: crypto.randomUUID(),
+              role: "agent",
+              content: nextQuestion.introLine,
+            },
+          ]);
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: crypto.randomUUID(),
+              role: "agent",
+              content: COMPLETION_MESSAGE,
+            },
+          ]);
+          setIsComplete(true);
+        }
+      }
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          role: "agent",
+          content: `Sorry, something went wrong. Please try again.`,
+        },
+      ]);
+    } finally {
       setIsLoading(false);
-    }, 600);
+    }
   };
 
   return (
