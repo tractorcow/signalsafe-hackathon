@@ -17,3 +17,40 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+enum SentimentKey {
+  positive
+  negative
+  neutral
+  joy
+  sadness
+  anger
+  fear
+  surprise
+  disgust
+  trust
+  anticipation
+  confusion
+  satisfaction
+  gratitude
+}
+
+model SurveyQuestionSentiment {
+  id                 String       @id @default(cuid())
+  surveyId           String
+  questionId         String
+  sentimentKey       SentimentKey
+  sentimentStrength  Float
+  createdAt          DateTime     @default(now())
+
+  @@unique([surveyId, questionId, sentimentKey])
+}
+
+model SurveyQuestionFeedback {
+  id           String   @id @default(cuid())
+  surveyId     String
+  questionId   String
+  feedbackKey  String
+  feedbackValue String
+  createdAt   DateTime @default(now())
+}

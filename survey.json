@@ -1,0 +1,17 @@
+{
+  "surveyId": "signalsafe-2025",
+  "questions": [
+    {
+      "questionId": "q1-satisfaction",
+      "systemPrompt": "You are analysing survey responses for signal safety and user satisfaction.",
+      "introLine": "How satisfied are you with the current signal safety in your area?",
+      "listOfFeedback": ["strengths", "improvements", "other"]
+    },
+    {
+      "questionId": "q2-trust",
+      "systemPrompt": "You are evaluating trust and confidence in signal systems.",
+      "introLine": "How much do you trust the signal system to keep you safe?",
+      "listOfFeedback": ["trust_reasons", "concerns"]
+    }
+  ]
+}
