@@ -13,6 +13,9 @@ type Message = {
 };
 
 
+const COMPLETION_MESSAGE =
+  "Thank you for completing the survey. We appreciate your feedback.";
+
 export default function SurveyChat() {
   const [survey] = useState<Survey>(() => getSurvey());
   const initialQuestion = survey.questions[0]?.introLine ?? "We'd like to hear your thoughts.";
@@ -23,8 +26,10 @@ export default function SurveyChat() {
       content: initialQuestion,
     },
   ]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -54,17 +59,31 @@ export default function SurveyChat() {
     if (textareaRef.current) textareaRef.current.style.height = "44px";
     setIsLoading(true);
 
-    // Simulate agent reply (replace with real survey flow later)
+    const nextIndex = currentQuestionIndex + 1;
+
     setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          role: "agent",
-          content:
-            "Thanks for that. Next: on a scale of 1–5, how likely are you to recommend us to a friend?",
-        },
-      ]);
+      if (nextIndex < survey.questions.length) {
+        const nextQuestion = survey.questions[nextIndex];
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: crypto.randomUUID(),
+            role: "agent",
+            content: nextQuestion.introLine,
+          },
+        ]);
+        setCurrentQuestionIndex(nextIndex);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: crypto.randomUUID(),
+            role: "agent",
+            content: COMPLETION_MESSAGE,
+          },
+        ]);
+        setIsComplete(true);
+      }
       setIsLoading(false);
     }, 600);
   };
@@ -179,11 +198,11 @@ export default function SurveyChat() {
             placeholder="Type your answer..."
             rows={1}
             className="min-h-[44px] max-h-32 flex-1 resize-none bg-transparent px-3 py-2.5 text-[15px] text-white placeholder:text-white/40 focus:outline-none"
-            disabled={isLoading}
+            disabled={isLoading || isComplete}
           />
           <button
             type="submit"
-            disabled={!input.trim() || isLoading}
+            disabled={!input.trim() || isLoading || isComplete}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-white transition hover:bg-emerald-400 disabled:opacity-40 disabled:hover:bg-emerald-500"
           >
             <svg
