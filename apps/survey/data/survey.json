@@ -1,0 +1,101 @@
+{
+  "surveyId": "rush-employee-feedback-2025",
+  "questions": [
+    {
+      "questionId": "q1-overall-sentiment",
+      "systemPrompt": "You are analysing employee sentiment about Rush as a workplace.",
+      "introLine": "Overall, how do you feel about Rush as a place to work?",
+      "listOfFeedback": ["positive_factors", "negative_factors", "general_sentiment"]
+    },
+    {
+      "questionId": "q2-org-direction",
+      "systemPrompt": "You are analysing employee confidence in the organisation's future direction.",
+      "introLine": "How positive or negative do you feel about Rush's direction over the next 1–2 years?",
+      "listOfFeedback": ["confidence_reasons", "concerns"]
+    },
+    {
+      "questionId": "q3-feeling-valued",
+      "systemPrompt": "You are analysing whether employees feel valued within the organisation.",
+      "introLine": "How valued do you feel as an employee at Rush?",
+      "listOfFeedback": ["what_makes_people_feel_valued", "what_reduces_that_feeling"]
+    },
+    {
+      "questionId": "q4-di-initiative",
+      "systemPrompt": "You are analysing feedback about Rush's diversity and inclusion hiring initiative.",
+      "introLine": "How do you feel about Rush encouraging employees to introduce candidates from diverse cultures and groups?",
+      "listOfFeedback": ["positive_views", "concerns", "impact_perception"]
+    },
+    {
+      "questionId": "q5-di-impact",
+      "systemPrompt": "You are evaluating whether employees believe the diversity initiative is effective.",
+      "introLine": "Do you believe this initiative is having a meaningful impact on the diversity of our hiring pool?",
+      "listOfFeedback": ["evidence_of_impact", "doubts_or_limitations"]
+    },
+    {
+      "questionId": "q6-di-strengths",
+      "systemPrompt": "You are identifying what Rush has done well regarding diversity and inclusion.",
+      "introLine": "What has Rush done well so far in supporting diversity and inclusion?",
+      "listOfFeedback": ["strengths", "successful_actions"]
+    },
+    {
+      "questionId": "q7-di-improvements",
+      "systemPrompt": "You are collecting suggestions for improving the diversity and inclusion initiative.",
+      "introLine": "What could Rush improve or do differently to make this initiative more effective?",
+      "listOfFeedback": ["improvement_suggestions"]
+    },
+    {
+      "questionId": "q8-culture-inclusiveness",
+      "systemPrompt": "You are analysing perceptions of inclusiveness within organisational culture.",
+      "introLine": "How inclusive do you feel the culture at Rush is for people from different backgrounds?",
+      "listOfFeedback": ["inclusive_behaviours", "areas_of_exclusion"]
+    },
+    {
+      "questionId": "q9-voice",
+      "systemPrompt": "You are evaluating psychological safety and openness within teams.",
+      "introLine": "Do you feel comfortable sharing your ideas and perspectives within your team?",
+      "listOfFeedback": ["reasons_for_comfort", "barriers_to_speaking_up"]
+    },
+    {
+      "questionId": "q10-leadership-di",
+      "systemPrompt": "You are evaluating leadership commitment to diversity and inclusion.",
+      "introLine": "How well do you think leadership demonstrates commitment to diversity and inclusion?",
+      "listOfFeedback": ["leadership_strengths", "leadership_gaps"]
+    },
+    {
+      "questionId": "q11-remuneration",
+      "systemPrompt": "You are analysing employee satisfaction with compensation and benefits.",
+      "introLine": "How satisfied are you with your current remuneration and benefits at Rush?",
+      "listOfFeedback": ["positive_compensation_aspects", "compensation_concerns"]
+    },
+    {
+      "questionId": "q12-market-competitiveness",
+      "systemPrompt": "You are evaluating employee perceptions of market competitiveness of compensation.",
+      "introLine": "Do you feel your compensation is competitive compared to similar roles in the industry?",
+      "listOfFeedback": ["competitive_factors", "gaps_vs_market"]
+    },
+    {
+      "questionId": "q13-career-growth",
+      "systemPrompt": "You are analysing employee perceptions of career growth opportunities.",
+      "introLine": "How satisfied are you with your opportunities for career growth and development within Rush?",
+      "listOfFeedback": ["growth_strengths", "growth_barriers"]
+    },
+    {
+      "questionId": "q14-performance-recognition",
+      "systemPrompt": "You are analysing whether employees believe performance is recognised fairly.",
+      "introLine": "Do you feel the organisation recognises and rewards good performance fairly?",
+      "listOfFeedback": ["recognition_strengths", "recognition_issues"]
+    },
+    {
+      "questionId": "q15-recommendation",
+      "systemPrompt": "You are evaluating employee advocacy and likelihood to recommend the workplace.",
+      "introLine": "How likely are you to recommend Rush as a place to work?",
+      "listOfFeedback": ["reasons_to_recommend", "reasons_not_to_recommend"]
+    },
+    {
+      "questionId": "q16-main-improvement",
+      "systemPrompt": "You are identifying the most impactful improvement the organisation could make for employees.",
+      "introLine": "What is the main thing Rush could improve to make your employee experience better?",
+      "listOfFeedback": ["top_improvement_area"]
+    }
+  ]
+}

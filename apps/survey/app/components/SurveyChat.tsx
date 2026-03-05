@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { getSurvey } from "@/lib/survey";
-import type { Survey } from "@/lib/survey";
 
 type Role = "agent" | "user";
 
@@ -12,26 +10,53 @@ type Message = {
   content: string;
 };
 
+type AgentReply = { content: string; surveyComplete?: boolean };
+
+async function getAgentReply(
+  messages: { role: Role; content: string }[]
+): Promise<AgentReply> {
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages: messages.map((m) => ({ role: m.role, content: m.content })),
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || res.statusText || "Failed to get reply");
+  }
+  const data = (await res.json()) as { content: string; surveyComplete?: boolean };
+  return {
+    content: data.content ?? "",
+    surveyComplete: data.surveyComplete,
+  };
+}
 
 const COMPLETION_MESSAGE =
   "Thank you for completing the survey. We appreciate your feedback.";
 
 export default function SurveyChat() {
-  const [survey] = useState<Survey>(() => getSurvey());
-  const initialQuestion = survey.questions[0]?.introLine ?? "We'd like to hear your thoughts.";
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      role: "agent",
-      content: initialQuestion,
-    },
-  ]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isComplete, setIsComplete] = useState(false);
+
+  // Fetch initial question from AI on mount
+  useEffect(() => {
+    getAgentReply([])
+      .then(({ content }) => {
+        setMessages([{ id: crypto.randomUUID(), role: "agent", content }]);
+        setError(null);
+      })
+      .catch((err) =>
+        setError(err instanceof Error ? err.message : "Something went wrong")
+      )
+      .finally(() => setIsLoading(false));
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -44,7 +69,7 @@ export default function SurveyChat() {
     ta.style.height = `${Math.min(ta.scrollHeight, 128)}px`;
   }, [input]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = input.trim();
     if (!text || isLoading) return;
@@ -54,26 +79,22 @@ export default function SurveyChat() {
       role: "user",
       content: text,
     };
-    setMessages((prev) => [...prev, userMessage]);
+    const nextMessages = [...messages, userMessage];
+    setMessages(nextMessages);
     setInput("");
     if (textareaRef.current) textareaRef.current.style.height = "44px";
     setIsLoading(true);
+    setError(null);
 
-    const nextIndex = currentQuestionIndex + 1;
-
-    setTimeout(() => {
-      if (nextIndex < survey.questions.length) {
-        const nextQuestion = survey.questions[nextIndex];
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: crypto.randomUUID(),
-            role: "agent",
-            content: nextQuestion.introLine,
-          },
-        ]);
-        setCurrentQuestionIndex(nextIndex);
-      } else {
+    try {
+      const { content, surveyComplete } = await getAgentReply(
+        nextMessages.map((m) => ({ role: m.role, content: m.content }))
+      );
+      setMessages((prev) => [
+        ...prev,
+        { id: crypto.randomUUID(), role: "agent", content },
+      ]);
+      if (surveyComplete) {
         setMessages((prev) => [
           ...prev,
           {
@@ -84,8 +105,11 @@ export default function SurveyChat() {
         ]);
         setIsComplete(true);
       }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to get reply");
+    } finally {
       setIsLoading(false);
-    }, 600);
+    }
   };
 
   return (
@@ -114,6 +138,14 @@ export default function SurveyChat() {
           </div>
         </div>
       </header>
+
+      {error && (
+        <div className="mx-auto max-w-3xl px-4 py-2">
+          <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-3 py-2 text-sm text-red-300">
+            {error}
+          </div>
+        </div>
+      )}
 
       {/* Messages */}
       <div className="min-h-0 flex-1 overflow-y-auto">
