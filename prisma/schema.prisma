@@ -1,0 +1,19 @@
+// Prisma schema – SQLite (local)
+// Prisma 7: URL is in prisma.config.ts; client uses adapter in lib/db.ts
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
